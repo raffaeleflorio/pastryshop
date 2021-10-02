@@ -7,6 +7,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +20,8 @@ import java.util.function.BiFunction;
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-final class InMemorySummaries implements Summaries {
+@Component
+public final class InMemorySummaries implements Summaries {
   /**
    * Builds volatile summaries
    *
