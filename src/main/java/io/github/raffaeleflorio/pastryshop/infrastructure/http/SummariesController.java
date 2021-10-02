@@ -16,7 +16,7 @@ public class SummariesController {
   }
 
   @PostMapping(consumes = "application/json", produces = "application/json")
-  public String summary(@RequestBody final String description) {
+  public String trackedSummary(@RequestBody final String description) {
     var summary = new JsonSummary(
       Json.createReader(new StringReader(description)).readObject(),
       summaries
@@ -29,6 +29,11 @@ public class SummariesController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void remove(@PathVariable final String name) {
     summaries.remove(name);
+  }
+
+  @GetMapping(produces = "application/json")
+  public String description() {
+    return summaries.description().toString();
   }
 
   private final Summaries summaries;
