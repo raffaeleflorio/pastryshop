@@ -2,7 +2,9 @@ package io.github.raffaeleflorio.pastryshop.infrastructure.pastry;
 
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Summary;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -70,5 +72,32 @@ class InMemorySummariesTest {
 
     private final InMemorySummaries summaries;
     private final JsonObject description;
+  }
+
+  @Test
+  void testDescription() {
+    var description = Json.createArrayBuilder()
+      .add(Json.createObjectBuilder().add("name", "pastry one"))
+      .add(Json.createObjectBuilder().add("name", "pastry two"))
+      .build();
+    assertThat(
+      new DescriptionAfterAdding(new InMemorySummaries(), description).take(),
+      equalTo(description)
+    );
+  }
+
+  private final static class DescriptionAfterAdding {
+    private DescriptionAfterAdding(final InMemorySummaries summaries, final JsonArray description) {
+      this.summaries = summaries;
+      this.description = description;
+    }
+
+    public JsonArray take() {
+      description.forEach(v -> summaries.add(v.asJsonObject()));
+      return summaries.description();
+    }
+
+    private final InMemorySummaries summaries;
+    private final JsonArray description;
   }
 }

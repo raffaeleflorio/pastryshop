@@ -2,6 +2,7 @@ package io.github.raffaeleflorio.pastryshop.infrastructure.pastry;
 
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Summaries;
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Summary;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,11 @@ public class SummariesAsComponent implements Summaries {
   @Override
   public Optional<Summary> summary(final CharSequence id) {
     return origin.summary(id);
+  }
+
+  @Override
+  public JsonArray description() {
+    return origin.description();
   }
 
   private final Summaries origin;

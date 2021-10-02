@@ -1,5 +1,7 @@
 package io.github.raffaeleflorio.pastryshop.domain.pastry;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 
 import java.util.Optional;
@@ -38,6 +40,14 @@ public interface Summaries {
   Optional<Summary> summary(CharSequence id);
 
   /**
+   * Builds the description
+   *
+   * @return The description
+   * @since 1.0.0
+   */
+  JsonArray description();
+
+  /**
    * {@link Summaries} useful for testing
    *
    * @author Raffaele Florio (raffaeleflorio@protonmail.com)
@@ -60,26 +70,30 @@ public interface Summaries {
         },
         id -> {
           throw new IllegalStateException("Unable to build a summary from a fake");
-        }
+        },
+        Json.createArrayBuilder().build()
       );
     }
 
     /**
      * Builds a fake
      *
-     * @param addFn     The add function
-     * @param removeFn  The remove function
-     * @param summaryFn The summary function
+     * @param addFn       The add function
+     * @param removeFn    The remove function
+     * @param summaryFn   The summary function
+     * @param description The description
      * @since 1.0.0
      */
     public Fake(
       final Runnable addFn,
       final Runnable removeFn,
-      final Function<CharSequence, Optional<Summary>> summaryFn
+      final Function<CharSequence, Optional<Summary>> summaryFn,
+      final JsonArray description
     ) {
       this.addFn = addFn;
       this.removeFn = removeFn;
       this.summaryFn = summaryFn;
+      this.description = description;
     }
 
     @Override
@@ -97,8 +111,14 @@ public interface Summaries {
       return summaryFn.apply(id);
     }
 
+    @Override
+    public JsonArray description() {
+      return description;
+    }
+
     private final Runnable addFn;
     private final Runnable removeFn;
     private final Function<CharSequence, Optional<Summary>> summaryFn;
+    private final JsonArray description;
   }
 }

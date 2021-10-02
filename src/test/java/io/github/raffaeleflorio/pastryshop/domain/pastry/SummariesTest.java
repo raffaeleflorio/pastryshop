@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.github.raffaeleflorio.pastryshop.hamcrest.IsThrowedWithMessage.throwsWithMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 class SummariesTest {
   @Nested
@@ -32,6 +33,15 @@ class SummariesTest {
       assertThat(
         () -> new Summaries.Fake().summary("any id"),
         throwsWithMessage(IllegalStateException.class, "Unable to build a summary from a fake")
+      );
+    }
+
+    @Test
+    void testDefaultDescription() {
+      var emptyDescription = Json.createArrayBuilder().build();
+      assertThat(
+        new Summaries.Fake().description(),
+        equalTo(emptyDescription)
       );
     }
   }

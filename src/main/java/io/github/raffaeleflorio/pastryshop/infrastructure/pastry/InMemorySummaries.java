@@ -3,6 +3,9 @@ package io.github.raffaeleflorio.pastryshop.infrastructure.pastry;
 import io.github.raffaeleflorio.pastryshop.domain.pastry.JsonSummary;
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Summaries;
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Summary;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
 import java.util.Optional;
@@ -54,6 +57,13 @@ final class InMemorySummaries implements Summaries {
   @Override
   public Optional<Summary> summary(final CharSequence id) {
     return Optional.ofNullable(map.get(id)).map(description -> summaryFn.apply(description, this));
+  }
+
+  @Override
+  public JsonArray description() {
+    return map.values().stream()
+      .reduce(Json.createArrayBuilder(), JsonArrayBuilder::add, JsonArrayBuilder::addAll)
+      .build();
   }
 
   private final ConcurrentMap<CharSequence, JsonObject> map;
