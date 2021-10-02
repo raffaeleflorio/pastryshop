@@ -1,6 +1,6 @@
 # Pastryshop
 
-A demo pastryshop made with Spring
+A pastryshop demo to track and sell products with HTTP interface. The latter made with Spring Boot.
 
 ## How to run
 
