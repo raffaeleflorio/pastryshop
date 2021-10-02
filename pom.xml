@@ -26,6 +26,7 @@
     <junit.version>5.7.2</junit.version>
     <hamcrest.version>2.2</hamcrest.version>
     <json-api.version>2.0.1</json-api.version>
+    <logback-classic.version>1.2.6</logback-classic.version>
   </properties>
 
   <dependencies>
@@ -56,6 +57,11 @@
       <groupId>org.glassfish</groupId>
       <artifactId>jakarta.json</artifactId>
       <version>${json-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback-classic.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
