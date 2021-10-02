@@ -16,7 +16,7 @@ import java.util.function.BiFunction;
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class InMemorySummaries implements Summaries {
+final class InMemorySummaries implements Summaries {
   /**
    * Builds volatile summaries
    *
