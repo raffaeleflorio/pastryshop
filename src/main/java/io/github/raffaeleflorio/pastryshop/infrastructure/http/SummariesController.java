@@ -25,5 +25,11 @@ public class SummariesController {
     return summary.description().toString();
   }
 
+  @DeleteMapping("/{name}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void remove(@PathVariable final String name) {
+    summaries.remove(name);
+  }
+
   private final Summaries summaries;
 }
