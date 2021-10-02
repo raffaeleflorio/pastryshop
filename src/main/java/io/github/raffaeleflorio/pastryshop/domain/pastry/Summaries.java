@@ -2,6 +2,7 @@ package io.github.raffaeleflorio.pastryshop.domain.pastry;
 
 import jakarta.json.JsonObject;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -31,10 +32,10 @@ public interface Summaries {
    * Builds a summary
    *
    * @param id The id
-   * @return The summary
+   * @return The summary or empty
    * @since 1.0.0
    */
-  Summary summary(CharSequence id);
+  Optional<Summary> summary(CharSequence id);
 
   /**
    * {@link Summaries} useful for testing
@@ -74,7 +75,7 @@ public interface Summaries {
     public Fake(
       final Runnable addFn,
       final Runnable removeFn,
-      final Function<CharSequence, Summary> summaryFn
+      final Function<CharSequence, Optional<Summary>> summaryFn
     ) {
       this.addFn = addFn;
       this.removeFn = removeFn;
@@ -92,12 +93,12 @@ public interface Summaries {
     }
 
     @Override
-    public Summary summary(final CharSequence id) {
+    public Optional<Summary> summary(final CharSequence id) {
       return summaryFn.apply(id);
     }
 
     private final Runnable addFn;
     private final Runnable removeFn;
-    private final Function<CharSequence, Summary> summaryFn;
+    private final Function<CharSequence, Optional<Summary>> summaryFn;
   }
 }
