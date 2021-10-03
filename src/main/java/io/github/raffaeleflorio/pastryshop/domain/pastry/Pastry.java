@@ -3,7 +3,6 @@ package io.github.raffaeleflorio.pastryshop.domain.pastry;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
-import java.time.LocalDate;
 import java.util.function.Consumer;
 
 /**
@@ -38,12 +37,12 @@ public interface Pastry {
   Number price();
 
   /**
-   * Builds the expiration date
+   * Builds true if expired
    *
-   * @return The expiration date
+   * @return True if expired
    * @since 1.0.0
    */
-  LocalDate expiration();
+  Boolean expired();
 
   final class Fake implements Pastry {
     /**
@@ -52,13 +51,34 @@ public interface Pastry {
      * @since 1.0.0
      */
     public Fake() {
+      this(0);
+    }
+
+    /**
+     * Builds a fake with price
+     *
+     * @param price The price
+     * @since 1.0.0
+     */
+    public Fake(final Number price) {
+      this(Json.createObjectBuilder().build(), price);
+    }
+
+    /**
+     * Builds a fake
+     *
+     * @param description The description
+     * @param price       The price
+     * @since 1.0.0
+     */
+    public Fake(final JsonObject description, final Number price) {
       this(
         x -> {
           throw new IllegalStateException("Unable to sell a fake");
         },
-        Json.createObjectBuilder().build(),
-        0,
-        LocalDate.EPOCH
+        description,
+        price,
+        true
       );
     }
 
@@ -68,19 +88,19 @@ public interface Pastry {
      * @param sellFn      The sell function
      * @param description The description
      * @param price       The price
-     * @param expiration  The expiration
+     * @param expired     True if expired
      * @since 1.0.0
      */
     public Fake(
       final Consumer<Number> sellFn,
       final JsonObject description,
       final Number price,
-      final LocalDate expiration
+      final Boolean expired
     ) {
       this.sellFn = sellFn;
       this.description = description;
       this.price = price;
-      this.expiration = expiration;
+      this.expired = expired;
     }
 
     @Override
@@ -99,13 +119,13 @@ public interface Pastry {
     }
 
     @Override
-    public LocalDate expiration() {
-      return expiration;
+    public Boolean expired() {
+      return expired;
     }
 
     private final Consumer<Number> sellFn;
     private final JsonObject description;
     private final Number price;
-    private final LocalDate expiration;
+    private final Boolean expired;
   }
 }

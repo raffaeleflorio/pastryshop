@@ -4,8 +4,6 @@ import jakarta.json.Json;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static io.github.raffaeleflorio.pastryshop.hamcrest.IsThrowedWithMessage.throwsWithMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -31,11 +29,10 @@ class PastryTest {
     }
 
     @Test
-    void testDefaultExpirationToEpochTime() {
-      var expiration = LocalDate.EPOCH;
+    void testDefaultExpiredToTrue() {
       assertThat(
-        new Pastry.Fake().expiration(),
-        equalTo(expiration)
+        new Pastry.Fake().expired(),
+        equalTo(true)
       );
     }
 
