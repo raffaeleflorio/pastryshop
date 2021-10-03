@@ -11,7 +11,7 @@ import jakarta.json.JsonObject;
  */
 public interface Summary {
   /**
-   * Tracks itself to a group of summary
+   * Tracks itself
    *
    * @since 1.0.0
    */
