@@ -10,14 +10,14 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * An already on sale {@link Pastry}
+ * An on sale {@link Pastry} that expires after four days from sale
  *
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
 public final class PastryOnSale implements Pastry {
   /**
-   * Builds a pastry on sale which expires after four days
+   * Builds a pastry on sale which expires after four days according system default timezone
    *
    * @param description The pastry description
    * @since 1.0.0
@@ -48,15 +48,7 @@ public final class PastryOnSale implements Pastry {
     this(description, now, 3L);
   }
 
-  /**
-   * Builds a pastry
-   *
-   * @param description The pastry description
-   * @param now         The supplier of now
-   * @param expireDays  The days after expiration
-   * @since 1.0.0
-   */
-  public PastryOnSale(final JsonObject description, final Supplier<LocalDate> now, final Long expireDays) {
+  private PastryOnSale(final JsonObject description, final Supplier<LocalDate> now, final Long expireDays) {
     this.description = description;
     this.now = now;
     this.expireDays = expireDays;

@@ -54,12 +54,19 @@ public interface Showcase {
      * @since 1.0.0
      */
     public Fake() {
-      this(
-        (x, y) -> {
-          throw new IllegalStateException("Unable to add to a fake");
-        },
-        Json.createArrayBuilder().build()
-      );
+      this((x, y) -> {
+        throw new IllegalStateException("Unable to add to a fake");
+      });
+    }
+
+    /**
+     * Builds a fake
+     *
+     * @param addFn The add function
+     * @since 1.0.0
+     */
+    public Fake(final BiConsumer<JsonObject, Number> addFn) {
+      this(addFn, Json.createArrayBuilder().build());
     }
 
     /**

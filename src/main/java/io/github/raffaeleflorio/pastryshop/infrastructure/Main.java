@@ -41,6 +41,9 @@ public class Main {
 
   @Bean
   Showcase showcase() {
-    return new InMemoryShowcase(description -> new PastryOnSale(description, LocalDate::now));
+    return new LocalizedShowcase(
+      new InMemoryShowcase(description -> new PastryOnSale(description, LocalDate::now)),
+      LocalDate::now
+    );
   }
 }
