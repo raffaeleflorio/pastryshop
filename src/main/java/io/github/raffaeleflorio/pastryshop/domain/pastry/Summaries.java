@@ -73,10 +73,10 @@ public interface Summaries {
      */
     public Fake() {
       this(
-        (x) -> {
+        x -> {
           throw new IllegalStateException("Unable to add to a fake");
         },
-        (x) -> {
+        x -> {
           throw new IllegalStateException("Unable to remove from a fake");
         },
         id -> {
