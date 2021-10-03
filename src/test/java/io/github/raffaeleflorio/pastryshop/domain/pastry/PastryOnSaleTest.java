@@ -77,26 +77,10 @@ class PastryOnSaleTest {
   }
 
   @Test
-  void testSellAtThirdDay() {
+  void testSellException() {
     assertThat(
-      () -> new PastryOnSale(
-        new Pastry.Fake(),
-        LocalDate.EPOCH,
-        () -> LocalDate.EPOCH.plusDays(2)
-      ).sell(123),
-      throwsWithMessage(IllegalStateException.class, "Unable to sell a fake")
-    );
-  }
-
-  @Test
-  void testSellExceptionAtFourthDay() {
-    assertThat(
-      () -> new PastryOnSale(
-        new Pastry.Fake(),
-        LocalDate.EPOCH,
-        () -> LocalDate.EPOCH.plusDays(3)
-      ).sell(9),
-      throwsWithMessage(IllegalStateException.class, "Expired pastry")
+      () -> new PastryOnSale(new Pastry.Fake()).sell(9),
+      throwsWithMessage(IllegalStateException.class, "Pastry already on sale")
     );
   }
 

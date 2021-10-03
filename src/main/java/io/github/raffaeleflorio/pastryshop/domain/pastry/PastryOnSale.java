@@ -72,14 +72,7 @@ public final class PastryOnSale implements Pastry {
 
   @Override
   public void sell(final Number quantity) {
-    assertNotExpired();
-    origin.sell(quantity);
-  }
-
-  private void assertNotExpired() {
-    if (expired()) {
-      throw new IllegalStateException("Expired pastry");
-    }
+    throw new IllegalStateException("Pastry already on sale");
   }
 
   @Override
@@ -102,6 +95,12 @@ public final class PastryOnSale implements Pastry {
       1L, () -> origin.price().doubleValue() * 0.8,
       2L, () -> origin.price().doubleValue() * 0.2);
     return priceMap.get(soldDays()).get();
+  }
+
+  private void assertNotExpired() {
+    if (expired()) {
+      throw new IllegalStateException("Expired pastry");
+    }
   }
 
   private Long soldDays() {
