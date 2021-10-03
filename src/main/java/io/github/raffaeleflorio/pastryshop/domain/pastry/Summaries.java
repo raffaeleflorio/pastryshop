@@ -15,23 +15,23 @@ import java.util.function.Function;
  */
 public interface Summaries {
   /**
-   * Adds a summary by its description
+   * Adds an item
    *
-   * @param description The description
+   * @param description The item description
    * @since 1.0.0
    */
   void add(JsonObject description);
 
   /**
-   * Removes the summary
+   * Removes an item
    *
-   * @param id The summary id
+   * @param id The item id
    * @since 1.0.0
    */
   void remove(CharSequence id);
 
   /**
-   * Builds a summary
+   * Builds a summary item
    *
    * @param id The id
    * @return The summary or empty

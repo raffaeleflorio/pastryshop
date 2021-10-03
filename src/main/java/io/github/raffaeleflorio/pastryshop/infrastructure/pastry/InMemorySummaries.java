@@ -45,8 +45,8 @@ public final class InMemorySummaries implements Summaries {
   }
 
   @Override
-  public void add(final JsonObject summary) {
-    map.put(summary.getString("name"), summary);
+  public void add(final JsonObject description) {
+    map.put(description.getString("name"), description);
   }
 
   @Override

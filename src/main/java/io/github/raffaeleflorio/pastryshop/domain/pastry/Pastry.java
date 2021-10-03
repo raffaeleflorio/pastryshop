@@ -32,4 +32,12 @@ public interface Pastry {
    * @since 1.0.0
    */
   Number price();
+
+  /**
+   * Builds true if expired
+   *
+   * @return True if expired, otherwise false
+   * @since 1.0.0
+   */
+  Boolean expired();
 }
