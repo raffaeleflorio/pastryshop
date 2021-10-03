@@ -1,6 +1,9 @@
 package io.github.raffaeleflorio.pastryshop.infrastructure;
 
+import io.github.raffaeleflorio.pastryshop.domain.pastry.PastryOnSale;
+import io.github.raffaeleflorio.pastryshop.domain.showcase.Showcase;
 import io.github.raffaeleflorio.pastryshop.domain.summary.*;
+import io.github.raffaeleflorio.pastryshop.infrastructure.showcase.InMemoryShowcase;
 import io.github.raffaeleflorio.pastryshop.infrastructure.summary.InMemorySummaries;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,5 +34,10 @@ public class Main {
         )
       )
     );
+  }
+
+  @Bean
+  Showcase showcase() {
+    return new InMemoryShowcase(PastryOnSale::new);
   }
 }
