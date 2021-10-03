@@ -17,7 +17,7 @@ import java.util.function.Supplier;
  */
 public final class PastryWithExpiration implements Pastry {
   /**
-   * Builds a pastry which expires in four days with system timezone
+   * Builds a pastry which expires in four days from now with system timezone
    *
    * @param origin The pastry to decorate
    * @since 1.0.0
@@ -27,7 +27,7 @@ public final class PastryWithExpiration implements Pastry {
   }
 
   /**
-   * Builds a pastry which expires in four days
+   * Builds a pastry which expires in four days from now
    *
    * @param origin The pastry to decorate
    * @param zoneId The timezone
