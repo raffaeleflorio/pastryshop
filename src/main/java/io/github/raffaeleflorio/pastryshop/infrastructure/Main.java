@@ -1,9 +1,6 @@
 package io.github.raffaeleflorio.pastryshop.infrastructure;
 
-import io.github.raffaeleflorio.pastryshop.domain.pastry.MandatoryIngredients;
-import io.github.raffaeleflorio.pastryshop.domain.pastry.MandatoryName;
-import io.github.raffaeleflorio.pastryshop.domain.pastry.MandatoryPrice;
-import io.github.raffaeleflorio.pastryshop.domain.pastry.Summaries;
+import io.github.raffaeleflorio.pastryshop.domain.pastry.*;
 import io.github.raffaeleflorio.pastryshop.infrastructure.pastry.InMemorySummaries;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,8 +24,10 @@ public class Main {
   Summaries summaries() {
     return new MandatoryName(
       new MandatoryPrice(
-        new MandatoryIngredients(
-          new InMemorySummaries()
+        new MandatoryImage(
+          new MandatoryIngredients(
+            new InMemorySummaries()
+          )
         )
       )
     );
