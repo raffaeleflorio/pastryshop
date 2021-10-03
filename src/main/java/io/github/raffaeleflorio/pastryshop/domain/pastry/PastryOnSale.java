@@ -10,19 +10,19 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * An already sold {@link Pastry}
+ * An already on sale {@link Pastry}
  *
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class SoldPastry implements Pastry {
+public final class PastryOnSale implements Pastry {
   /**
    * Builds a pastry which expires in four days from now with system timezone
    *
    * @param origin The pastry to decorate
    * @since 1.0.0
    */
-  public SoldPastry(final Pastry origin) {
+  public PastryOnSale(final Pastry origin) {
     this(origin, ZoneId.systemDefault());
   }
 
@@ -33,7 +33,7 @@ public final class SoldPastry implements Pastry {
    * @param zoneId The timezone
    * @since 1.0.0
    */
-  public SoldPastry(final Pastry origin, final ZoneId zoneId) {
+  public PastryOnSale(final Pastry origin, final ZoneId zoneId) {
     this(origin, LocalDate.now(zoneId), () -> LocalDate.now(zoneId));
   }
 
@@ -45,7 +45,7 @@ public final class SoldPastry implements Pastry {
    * @param now              The supplier of now
    * @since 1.0.0
    */
-  public SoldPastry(final Pastry origin, final LocalDate manufacturedDate, final Supplier<LocalDate> now) {
+  public PastryOnSale(final Pastry origin, final LocalDate manufacturedDate, final Supplier<LocalDate> now) {
     this(origin, manufacturedDate, now, 3L);
   }
 
@@ -58,7 +58,7 @@ public final class SoldPastry implements Pastry {
    * @param expireDays       The days after expiration
    * @since 1.0.0
    */
-  public SoldPastry(
+  public PastryOnSale(
     final Pastry origin,
     final LocalDate manufacturedDate,
     final Supplier<LocalDate> now,

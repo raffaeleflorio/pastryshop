@@ -9,12 +9,12 @@ import static io.github.raffaeleflorio.pastryshop.hamcrest.IsThrowedWithMessage.
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-class SoldPastryTest {
+class PastryOnSaleTest {
   @Test
   void testFullPriceFirstDay() {
     var price = 13.37;
     assertThat(
-      new SoldPastry(new Pastry.Fake(price)).price(),
+      new PastryOnSale(new Pastry.Fake(price)).price(),
       equalTo(price)
     );
   }
@@ -23,7 +23,7 @@ class SoldPastryTest {
   void testEightyPercentPriceSecondDay() {
     var price = 13.37 * 0.8;
     assertThat(
-      new SoldPastry(
+      new PastryOnSale(
         new Pastry.Fake(13.37),
         LocalDate.EPOCH,
         () -> LocalDate.EPOCH.plusDays(1)
@@ -36,7 +36,7 @@ class SoldPastryTest {
   void testTwentyPercentPriceThirdDay() {
     var price = 13.37 * 0.2;
     assertThat(
-      new SoldPastry(
+      new PastryOnSale(
         new Pastry.Fake(13.37),
         LocalDate.EPOCH,
         () -> LocalDate.EPOCH.plusDays(2)
@@ -48,7 +48,7 @@ class SoldPastryTest {
   @Test
   void testPriceExceptionAtFourthDay() {
     assertThat(
-      () -> new SoldPastry(
+      () -> new PastryOnSale(
         new Pastry.Fake(1234),
         LocalDate.EPOCH,
         () -> LocalDate.EPOCH.plusDays(3)
@@ -64,7 +64,7 @@ class SoldPastryTest {
       .add("price", 42 * 0.2)
       .build();
     assertThat(
-      new SoldPastry(
+      new PastryOnSale(
         new Pastry.Fake(
           Json.createObjectBuilder().add("price", 42).build(),
           42
@@ -79,7 +79,7 @@ class SoldPastryTest {
   @Test
   void testSellAtThirdDay() {
     assertThat(
-      () -> new SoldPastry(
+      () -> new PastryOnSale(
         new Pastry.Fake(),
         LocalDate.EPOCH,
         () -> LocalDate.EPOCH.plusDays(2)
@@ -91,7 +91,7 @@ class SoldPastryTest {
   @Test
   void testSellExceptionAtFourthDay() {
     assertThat(
-      () -> new SoldPastry(
+      () -> new PastryOnSale(
         new Pastry.Fake(),
         LocalDate.EPOCH,
         () -> LocalDate.EPOCH.plusDays(3)
