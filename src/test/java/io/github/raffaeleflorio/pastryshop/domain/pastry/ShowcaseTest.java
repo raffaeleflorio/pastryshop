@@ -20,7 +20,7 @@ class ShowcaseTest {
     }
 
     @Test
-    void testDefaultDescription() {
+    void testDefaultDescriptionToEmptyJsonArray() {
       var description = Json.createArrayBuilder().build();
       assertThat(
         new Showcase.Fake().description(),

@@ -4,7 +4,6 @@ import io.github.raffaeleflorio.pastryshop.domain.pastry.Summary;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -22,7 +21,7 @@ class InMemorySummariesTest {
   }
 
   @Test
-  void testAdding() {
+  void testSummaryAfterAddition() {
     var description = Json.createObjectBuilder()
       .add("name", "a name that identify the summary")
       .build();
@@ -48,7 +47,7 @@ class InMemorySummariesTest {
   }
 
   @Test
-  void testRemoving() {
+  void testSummaryAfterRemoval() {
     var description = Json.createObjectBuilder()
       .add("name", "a name")
       .build();
@@ -75,7 +74,7 @@ class InMemorySummariesTest {
   }
 
   @Test
-  void testDescription() {
+  void testDescriptionAfterAddingSummaries() {
     var description = Json.createArrayBuilder()
       .add(Json.createObjectBuilder().add("name", "pastry one"))
       .add(Json.createObjectBuilder().add("name", "pastry two"))

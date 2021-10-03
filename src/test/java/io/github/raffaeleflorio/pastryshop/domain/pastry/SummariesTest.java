@@ -29,7 +29,7 @@ class SummariesTest {
     }
 
     @Test
-    void testDefaultSummary() {
+    void testDefaultSummaryException() {
       assertThat(
         () -> new Summaries.Fake().summary("any id"),
         throwsWithMessage(IllegalStateException.class, "Unable to build a summary from a fake")
@@ -37,7 +37,7 @@ class SummariesTest {
     }
 
     @Test
-    void testDefaultDescription() {
+    void testDefaultDescriptionToEmptyJsonArray() {
       var emptyDescription = Json.createArrayBuilder().build();
       assertThat(
         new Summaries.Fake().description(),

@@ -20,7 +20,7 @@ class SummaryTest {
     }
 
     @Test
-    void testDefaultDescription() {
+    void testDefaultDescriptionToEmptyJsonObject() {
       var emptyJsonObject = Json.createObjectBuilder().build();
       assertThat(
         new Summary.Fake().description(),
