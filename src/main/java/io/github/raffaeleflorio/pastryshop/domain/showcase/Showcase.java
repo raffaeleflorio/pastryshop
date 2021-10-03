@@ -3,7 +3,6 @@ package io.github.raffaeleflorio.pastryshop.domain.showcase;
 import io.github.raffaeleflorio.pastryshop.domain.pastry.Pastry;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
 
 import java.util.function.BiConsumer;
 
@@ -17,11 +16,11 @@ public interface Showcase {
   /**
    * Adds an item
    *
-   * @param description The pastry description
-   * @param quantity    The available quantity
+   * @param name     The pastry name
+   * @param quantity The available quantity
    * @since 1.0.0
    */
-  void add(JsonObject description, Integer quantity);
+  void add(CharSequence name, Integer quantity);
 
   /**
    * Builds the description
@@ -69,14 +68,14 @@ public interface Showcase {
      * @param description The description
      * @since 1.0.0
      */
-    public Fake(final BiConsumer<JsonObject, Integer> addFn, final JsonArray description) {
+    public Fake(final BiConsumer<CharSequence, Integer> addFn, final JsonArray description) {
       this.addFn = addFn;
       this.description = description;
     }
 
     @Override
-    public void add(final JsonObject description, final Integer quantity) {
-      addFn.accept(description, quantity);
+    public void add(final CharSequence name, final Integer quantity) {
+      addFn.accept(name, quantity);
     }
 
     @Override
@@ -84,7 +83,7 @@ public interface Showcase {
       return description;
     }
 
-    private final BiConsumer<JsonObject, Integer> addFn;
+    private final BiConsumer<CharSequence, Integer> addFn;
     private final JsonArray description;
   }
 }
