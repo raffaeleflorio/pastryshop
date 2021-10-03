@@ -72,6 +72,18 @@ public interface Summaries {
      * @since 1.0.0
      */
     public Fake() {
+      this(id -> {
+        throw new IllegalStateException("Unable to build a summary from a fake");
+      });
+    }
+
+    /**
+     * Builds a fake that throws exception
+     *
+     * @param summaryFn The function to build summary
+     * @since 1.0.0
+     */
+    public Fake(final Function<CharSequence, Optional<Summary>> summaryFn) {
       this(
         x -> {
           throw new IllegalStateException("Unable to add to a fake");
@@ -79,9 +91,7 @@ public interface Summaries {
         x -> {
           throw new IllegalStateException("Unable to remove from a fake");
         },
-        id -> {
-          throw new IllegalStateException("Unable to build a summary from a fake");
-        },
+        summaryFn,
         Json.createArrayBuilder().build()
       );
     }

@@ -38,19 +38,22 @@ public interface Summary {
      * @since 1.0.0
      */
     public Fake() {
-      this(() -> {
-        throw new IllegalStateException("Unable to track a fake");
-      });
+      this(Json.createObjectBuilder().build());
     }
 
     /**
      * Builds fake with an empty description
      *
-     * @param trackFn The track function
+     * @param description The description
      * @since 1.0.0
      */
-    public Fake(final Runnable trackFn) {
-      this(trackFn, Json.createObjectBuilder().build());
+    public Fake(final JsonObject description) {
+      this(
+        () -> {
+          throw new IllegalStateException("Unable to track a fake");
+        },
+        description
+      );
     }
 
     /**

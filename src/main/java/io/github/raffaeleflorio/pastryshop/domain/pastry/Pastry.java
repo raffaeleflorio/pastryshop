@@ -36,14 +36,6 @@ public interface Pastry {
    */
   Number price();
 
-  /**
-   * Builds true if expired
-   *
-   * @return True if expired
-   * @since 1.0.0
-   */
-  Boolean expired();
-
   final class Fake implements Pastry {
     /**
      * Builds a fake
@@ -77,8 +69,7 @@ public interface Pastry {
           throw new IllegalStateException("Unable to sell a fake");
         },
         description,
-        price,
-        true
+        price
       );
     }
 
@@ -88,19 +79,12 @@ public interface Pastry {
      * @param sellFn      The sell function
      * @param description The description
      * @param price       The price
-     * @param expired     True if expired
      * @since 1.0.0
      */
-    public Fake(
-      final Consumer<Number> sellFn,
-      final JsonObject description,
-      final Number price,
-      final Boolean expired
-    ) {
+    public Fake(final Consumer<Number> sellFn, final JsonObject description, final Number price) {
       this.sellFn = sellFn;
       this.description = description;
       this.price = price;
-      this.expired = expired;
     }
 
     @Override
@@ -118,14 +102,8 @@ public interface Pastry {
       return price;
     }
 
-    @Override
-    public Boolean expired() {
-      return expired;
-    }
-
     private final Consumer<Number> sellFn;
     private final JsonObject description;
     private final Number price;
-    private final Boolean expired;
   }
 }

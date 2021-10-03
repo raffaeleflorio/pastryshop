@@ -10,19 +10,19 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * An already sold {@link Pastry} with expiration date
+ * An already sold {@link Pastry}
  *
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class PastryWithExpiration implements Pastry {
+public final class SoldPastry implements Pastry {
   /**
    * Builds a pastry which expires in four days from now with system timezone
    *
    * @param origin The pastry to decorate
    * @since 1.0.0
    */
-  public PastryWithExpiration(final Pastry origin) {
+  public SoldPastry(final Pastry origin) {
     this(origin, ZoneId.systemDefault());
   }
 
@@ -33,7 +33,7 @@ public final class PastryWithExpiration implements Pastry {
    * @param zoneId The timezone
    * @since 1.0.0
    */
-  public PastryWithExpiration(final Pastry origin, final ZoneId zoneId) {
+  public SoldPastry(final Pastry origin, final ZoneId zoneId) {
     this(origin, LocalDate.now(zoneId), () -> LocalDate.now(zoneId));
   }
 
@@ -41,11 +41,11 @@ public final class PastryWithExpiration implements Pastry {
    * Builds a pastry that expires in four days
    *
    * @param origin           The pastry to decorate
-   * @param manufacturedDate The expiration date
+   * @param manufacturedDate The manufactured date
    * @param now              The supplier of now
    * @since 1.0.0
    */
-  public PastryWithExpiration(final Pastry origin, final LocalDate manufacturedDate, final Supplier<LocalDate> now) {
+  public SoldPastry(final Pastry origin, final LocalDate manufacturedDate, final Supplier<LocalDate> now) {
     this(origin, manufacturedDate, now, 3L);
   }
 
@@ -53,12 +53,12 @@ public final class PastryWithExpiration implements Pastry {
    * Builds a pastry
    *
    * @param origin           The pastry to decorate
-   * @param manufacturedDate The expiration date
+   * @param manufacturedDate The manufactured date
    * @param now              The supplier of now
    * @param expireDays       The days after expiration
    * @since 1.0.0
    */
-  public PastryWithExpiration(
+  public SoldPastry(
     final Pastry origin,
     final LocalDate manufacturedDate,
     final Supplier<LocalDate> now,
@@ -77,7 +77,7 @@ public final class PastryWithExpiration implements Pastry {
   }
 
   private void assertNotExpired() {
-    if (expired()) {
+    if (soldDays() >= expireDays) {
       throw new IllegalStateException("Expired pastry");
     }
   }
@@ -106,11 +106,6 @@ public final class PastryWithExpiration implements Pastry {
 
   private Long soldDays() {
     return manufacturedDate.until(now.get(), ChronoUnit.DAYS);
-  }
-
-  @Override
-  public Boolean expired() {
-    return soldDays() >= expireDays;
   }
 
   private final Pastry origin;
