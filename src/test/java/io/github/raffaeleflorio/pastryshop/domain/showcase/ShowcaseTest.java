@@ -14,7 +14,7 @@ class ShowcaseTest {
     @Test
     void testDefaultAddingException() {
       assertThat(
-        () -> new Showcase.Fake().add("any", 123),
+        () -> new Showcase.Fake().add(Json.createObjectBuilder().build(), 123),
         throwsWithMessage(IllegalStateException.class, "Unable to add to a fake")
       );
     }
