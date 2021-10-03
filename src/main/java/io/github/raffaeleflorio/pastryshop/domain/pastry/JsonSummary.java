@@ -13,7 +13,7 @@ public final class JsonSummary implements Summary {
    * Builds a summary
    *
    * @param origin    The json to animate
-   * @param summaries The summaries where to track/untrack
+   * @param summaries The summaries where to track
    * @since 1.0.0
    */
   public JsonSummary(final JsonObject origin, final Summaries summaries) {

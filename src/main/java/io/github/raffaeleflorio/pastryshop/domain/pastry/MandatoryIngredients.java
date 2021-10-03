@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class MandatoryIngredients implements ValidatedSummaries {
+public final class MandatoryIngredients implements Summaries.Validated {
   /**
    * Builds summaries
    *
@@ -36,7 +36,7 @@ public final class MandatoryIngredients implements ValidatedSummaries {
     );
   }
 
-  private MandatoryIngredients(final ValidatedSummaries origin) {
+  private MandatoryIngredients(final Summaries.Validated origin) {
     this.origin = origin;
   }
 
@@ -60,5 +60,5 @@ public final class MandatoryIngredients implements ValidatedSummaries {
     return origin.description();
   }
 
-  private final ValidatedSummaries origin;
+  private final Summaries.Validated origin;
 }

@@ -48,6 +48,16 @@ public interface Summaries {
   JsonArray description();
 
   /**
+   * {@link Summaries} validated according some rules
+   *
+   * @author Raffaele Florio (raffaeleflorio@protonmail.com)
+   * @since 1.0.0
+   */
+  interface Validated extends Summaries {
+
+  }
+
+  /**
    * {@link Summaries} useful for testing
    *
    * @author Raffaele Florio (raffaeleflorio@protonmail.com)

@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class MandatoryCharacteristic implements ValidatedSummaries {
+public final class MandatoryCharacteristic implements Summaries.Validated {
   /**
    * Builds summary
    *
