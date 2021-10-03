@@ -1,6 +1,8 @@
-# Pastryshop
+# Pastry shop demo with HTTP interface
 
-A pastryshop demo to track and sell products with HTTP interface. The latter made with Spring Boot.
+A pastry shop demo to track and sell products with HTTP interface. The latter made with Spring Boot.
+
+The project has an [associated kanban board](https://github.com/raffaeleflorio/pastryshop/projects/1).
 
 ## How to run
 
