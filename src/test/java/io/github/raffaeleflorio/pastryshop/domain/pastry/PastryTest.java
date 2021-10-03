@@ -21,7 +21,7 @@ class PastryTest {
 
     @Test
     void testDefaultDescriptionToEmptyJsonObject() {
-      var description = Json.createObjectBuilder().build();
+      var description = Json.createObjectBuilder().add("price", 0).build();
       assertThat(
         new Pastry.Fake().description(),
         equalTo(description)

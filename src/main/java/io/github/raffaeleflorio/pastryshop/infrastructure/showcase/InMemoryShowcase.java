@@ -7,14 +7,12 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-// TODO: test and refactoring
 /**
  * Volatile {@link Showcase} implementation
  *
@@ -28,20 +26,20 @@ public final class InMemoryShowcase implements Showcase {
    * @param pastryFn The function to build pastry on sale
    * @since 1.0.0
    */
-  public InMemoryShowcase(final Function<Pastry, Pastry> pastryFn) {
+  public InMemoryShowcase(final Function<JsonObject, Pastry> pastryFn) {
     this(pastryFn, new ConcurrentHashMap<>());
   }
 
   /**
    * Builds a showcase
    *
-   * @param pastryFn The function to build pastry
+   * @param pastryFn The function to build pastry on sale
    * @param map      The backed map
    * @since 1.0.0
    */
   InMemoryShowcase(
-    final Function<Pastry, Pastry> pastryFn,
-    final ConcurrentMap<UUID, Map.Entry<JsonObject, Number>> map
+    final Function<JsonObject, Pastry> pastryFn,
+    final ConcurrentMap<UUID, JsonObject> map
   ) {
     this.pastryFn = pastryFn;
     this.map = map;
@@ -49,13 +47,15 @@ public final class InMemoryShowcase implements Showcase {
 
   @Override
   public void add(final JsonObject description, final Number quantity) {
-    map.put(UUID.randomUUID(), Map.entry(description, quantity));
+    map.put(
+      UUID.randomUUID(),
+      Json.createObjectBuilder(description).add("quantity", quantity.doubleValue()).build()
+    );
   }
 
   @Override
   public JsonArray description() {
     return map.values().stream()
-      .map(InMemoryPastry::new)
       .map(pastryFn)
       .filter(Predicate.not(Pastry::expired))
       .map(Pastry::description)
@@ -63,36 +63,6 @@ public final class InMemoryShowcase implements Showcase {
       .build();
   }
 
-  private final Function<Pastry, Pastry> pastryFn;
-  private final ConcurrentMap<UUID, Map.Entry<JsonObject, Number>> map;
-
-  private final static class InMemoryPastry implements Pastry {
-    private InMemoryPastry(final Map.Entry<JsonObject, Number> entry) {
-      this.entry = entry;
-    }
-
-    @Override
-    public void sell(final Number quantity) {
-
-    }
-
-    @Override
-    public JsonObject description() {
-      return Json.createObjectBuilder(entry.getKey())
-        .add("quantity", entry.getValue().doubleValue())
-        .build();
-    }
-
-    @Override
-    public Number price() {
-      return entry.getKey().getJsonNumber("price").numberValue();
-    }
-
-    @Override
-    public Boolean expired() {
-      return null;
-    }
-
-    private final Map.Entry<JsonObject, Number> entry;
-  }
+  private final Function<JsonObject, Pastry> pastryFn;
+  private final ConcurrentMap<UUID, JsonObject> map;
 }

@@ -1,6 +1,7 @@
 package io.github.raffaeleflorio.pastryshop.infrastructure;
 
 import io.github.raffaeleflorio.pastryshop.domain.pastry.PastryOnSale;
+import io.github.raffaeleflorio.pastryshop.domain.showcase.LocalizedShowcase;
 import io.github.raffaeleflorio.pastryshop.domain.showcase.Showcase;
 import io.github.raffaeleflorio.pastryshop.domain.summary.*;
 import io.github.raffaeleflorio.pastryshop.infrastructure.showcase.InMemoryShowcase;
@@ -9,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.LocalDate;
 
 /**
  * The entrypoint
@@ -38,6 +41,6 @@ public class Main {
 
   @Bean
   Showcase showcase() {
-    return new InMemoryShowcase(PastryOnSale::new);
+    return new InMemoryShowcase(description -> new PastryOnSale(description, LocalDate::now));
   }
 }

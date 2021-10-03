@@ -12,9 +12,15 @@ import static org.hamcrest.Matchers.equalTo;
 class PastryOnSaleTest {
   @Test
   void testFullPriceFirstDay() {
-    var price = 13.37;
+    var price = 1337;
     assertThat(
-      new PastryOnSale(new Pastry.Fake(price)).price(),
+      new PastryOnSale(
+        Json.createObjectBuilder()
+          .add("price", price)
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
+        () -> LocalDate.EPOCH
+      ).price(),
       equalTo(price)
     );
   }
@@ -24,8 +30,10 @@ class PastryOnSaleTest {
     var price = 13.37 * 0.8;
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(13.37),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("price", 13.37)
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(1)
       ).price(),
       equalTo(price)
@@ -37,8 +45,10 @@ class PastryOnSaleTest {
     var price = 13.37 * 0.2;
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(13.37),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("price", 13.37)
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(2)
       ).price(),
       equalTo(price)
@@ -49,8 +59,10 @@ class PastryOnSaleTest {
   void testPriceExceptionAtFourthDay() {
     assertThat(
       () -> new PastryOnSale(
-        new Pastry.Fake(1234),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("price", 13.37)
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(3)
       ).price(),
       throwsWithMessage(IllegalStateException.class, "Expired pastry")
@@ -60,16 +72,16 @@ class PastryOnSaleTest {
   @Test
   void testDescriptionAtThirdDay() {
     var description = Json.createObjectBuilder()
+      .add("manufactured", LocalDate.EPOCH.toString())
       .add("expiration", LocalDate.EPOCH.plusDays(3).toString())
       .add("price", 42 * 0.2)
       .build();
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(
-          Json.createObjectBuilder().add("price", 42).build(),
-          42
-        ),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("price", 42)
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(2)
       ).description(),
       equalTo(description)
@@ -79,7 +91,7 @@ class PastryOnSaleTest {
   @Test
   void testSellException() {
     assertThat(
-      () -> new PastryOnSale(new Pastry.Fake()).sell(9),
+      () -> new PastryOnSale(Json.createObjectBuilder().build()).sell(9),
       throwsWithMessage(IllegalStateException.class, "Pastry already on sale")
     );
   }
@@ -88,8 +100,9 @@ class PastryOnSaleTest {
   void testExpiredAtFourthDayToTrue() {
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(3)
       ).expired(),
       equalTo(true)
@@ -100,8 +113,9 @@ class PastryOnSaleTest {
   void testExpiredAtThirdDayToFalse() {
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(2)
       ).expired(),
       equalTo(false)
@@ -112,8 +126,9 @@ class PastryOnSaleTest {
   void testExpiredAtSecondDayToFalse() {
     assertThat(
       new PastryOnSale(
-        new Pastry.Fake(),
-        LocalDate.EPOCH,
+        Json.createObjectBuilder()
+          .add("manufactured", LocalDate.EPOCH.toString())
+          .build(),
         () -> LocalDate.EPOCH.plusDays(1)
       ).expired(),
       equalTo(false)

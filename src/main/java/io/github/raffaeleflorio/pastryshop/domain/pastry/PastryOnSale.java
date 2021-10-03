@@ -17,55 +17,47 @@ import java.util.function.Supplier;
  */
 public final class PastryOnSale implements Pastry {
   /**
-   * Builds a pastry which expires in four days from now with system timezone
+   * Builds a pastry on sale which expires after four days
    *
-   * @param origin The pastry to decorate
+   * @param description The pastry description
    * @since 1.0.0
    */
-  public PastryOnSale(final Pastry origin) {
-    this(origin, ZoneId.systemDefault());
+  public PastryOnSale(final JsonObject description) {
+    this(description, ZoneId.systemDefault());
   }
 
   /**
-   * Builds a pastry which expires in four days from now
+   * Builds a pastry on sale which expires after four days
    *
-   * @param origin The pastry to decorate
-   * @param zoneId The timezone
+   * @param description The pastry description
+   * @param zoneId      The timezone
    * @since 1.0.0
    */
-  public PastryOnSale(final Pastry origin, final ZoneId zoneId) {
-    this(origin, LocalDate.now(zoneId), () -> LocalDate.now(zoneId));
+  public PastryOnSale(final JsonObject description, final ZoneId zoneId) {
+    this(description, () -> LocalDate.now(zoneId));
   }
 
   /**
    * Builds a pastry that expires in four days
    *
-   * @param origin           The pastry to decorate
-   * @param manufacturedDate The manufactured date
-   * @param now              The supplier of now
+   * @param description The pastry description
+   * @param now         The supplier of now
    * @since 1.0.0
    */
-  public PastryOnSale(final Pastry origin, final LocalDate manufacturedDate, final Supplier<LocalDate> now) {
-    this(origin, manufacturedDate, now, 3L);
+  public PastryOnSale(final JsonObject description, final Supplier<LocalDate> now) {
+    this(description, now, 3L);
   }
 
   /**
    * Builds a pastry
    *
-   * @param origin           The pastry to decorate
-   * @param manufacturedDate The manufactured date
-   * @param now              The supplier of now
-   * @param expireDays       The days after expiration
+   * @param description The pastry description
+   * @param now         The supplier of now
+   * @param expireDays  The days after expiration
    * @since 1.0.0
    */
-  public PastryOnSale(
-    final Pastry origin,
-    final LocalDate manufacturedDate,
-    final Supplier<LocalDate> now,
-    final Long expireDays
-  ) {
-    this.origin = origin;
-    this.manufacturedDate = manufacturedDate;
+  public PastryOnSale(final JsonObject description, final Supplier<LocalDate> now, final Long expireDays) {
+    this.description = description;
     this.now = now;
     this.expireDays = expireDays;
   }
@@ -77,24 +69,32 @@ public final class PastryOnSale implements Pastry {
 
   @Override
   public JsonObject description() {
-    return Json.createObjectBuilder(origin.description())
+    return Json.createObjectBuilder(description)
       .add("expiration", expirationDate().toString())
       .add("price", price().doubleValue())
       .build();
   }
 
   private LocalDate expirationDate() {
-    return manufacturedDate.plusDays(expireDays);
+    return manufacturedDate().plusDays(expireDays);
+  }
+
+  private LocalDate manufacturedDate() {
+    return LocalDate.parse(description.getString("manufactured"));
   }
 
   @Override
   public Number price() {
     assertNotExpired();
     var priceMap = Map.<Long, Supplier<Number>>of(
-      0L, origin::price,
-      1L, () -> origin.price().doubleValue() * 0.8,
-      2L, () -> origin.price().doubleValue() * 0.2);
+      0L, this::initialPrice,
+      1L, () -> initialPrice().doubleValue() * 0.8,
+      2L, () -> initialPrice().doubleValue() * 0.2);
     return priceMap.get(soldDays()).get();
+  }
+
+  private Number initialPrice() {
+    return description.getJsonNumber("price").numberValue();
   }
 
   private void assertNotExpired() {
@@ -104,7 +104,7 @@ public final class PastryOnSale implements Pastry {
   }
 
   private Long soldDays() {
-    return manufacturedDate.until(now.get(), ChronoUnit.DAYS);
+    return manufacturedDate().until(now.get(), ChronoUnit.DAYS);
   }
 
   @Override
@@ -112,8 +112,7 @@ public final class PastryOnSale implements Pastry {
     return soldDays() >= expireDays;
   }
 
-  private final Pastry origin;
-  private final LocalDate manufacturedDate;
+  private final JsonObject description;
   private final Supplier<LocalDate> now;
   private final Long expireDays;
 }

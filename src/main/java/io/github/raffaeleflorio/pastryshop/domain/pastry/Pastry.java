@@ -51,34 +51,33 @@ public interface Pastry {
      * @since 1.0.0
      */
     public Fake() {
-      this(0);
-    }
-
-    /**
-     * Builds a fake with price
-     *
-     * @param price The price
-     * @since 1.0.0
-     */
-    public Fake(final Number price) {
-      this(Json.createObjectBuilder().build(), price);
+      this(Json.createObjectBuilder().add("price", 0).build());
     }
 
     /**
      * Builds a fake
      *
      * @param description The description
-     * @param price       The price
      * @since 1.0.0
      */
-    public Fake(final JsonObject description, final Number price) {
+    public Fake(final JsonObject description) {
+      this(description, true);
+    }
+
+    /**
+     * Builds a fake
+     *
+     * @param description The description
+     * @param expired     True if expired
+     * @since 1.0.0
+     */
+    public Fake(final JsonObject description, final Boolean expired) {
       this(
+        description,
+        expired,
         x -> {
           throw new IllegalStateException("Unable to sell a fake");
-        },
-        description,
-        price,
-        true
+        }
       );
     }
 
@@ -87,20 +86,13 @@ public interface Pastry {
      *
      * @param sellFn      The sell function
      * @param description The description
-     * @param price       The price
      * @param expired     True if expired
      * @since 1.0.0
      */
-    public Fake(
-      final Consumer<Number> sellFn,
-      final JsonObject description,
-      final Number price,
-      final Boolean expired
-    ) {
-      this.sellFn = sellFn;
+    public Fake(final JsonObject description, final Boolean expired, final Consumer<Number> sellFn) {
       this.description = description;
-      this.price = price;
       this.expired = expired;
+      this.sellFn = sellFn;
     }
 
     @Override
@@ -115,7 +107,7 @@ public interface Pastry {
 
     @Override
     public Number price() {
-      return price;
+      return description().getJsonNumber("price").numberValue();
     }
 
     @Override
@@ -123,9 +115,8 @@ public interface Pastry {
       return expired;
     }
 
-    private final Consumer<Number> sellFn;
     private final JsonObject description;
-    private final Number price;
     private final Boolean expired;
+    private final Consumer<Number> sellFn;
   }
 }
