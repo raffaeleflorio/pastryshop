@@ -63,4 +63,16 @@ class PastryFromSummariesTest {
       throwsWithMessage(IllegalStateException.class, "Missing pastry")
     );
   }
+
+  @Test
+  void testExpiredToFalse() {
+    assertThat(
+      new PastryFromSummaries(
+        "non existent pastry",
+        new Summaries.Fake(x -> Optional.empty()),
+        new Showcase.Fake()
+      ).expired(),
+      equalTo(false)
+    );
+  }
 }

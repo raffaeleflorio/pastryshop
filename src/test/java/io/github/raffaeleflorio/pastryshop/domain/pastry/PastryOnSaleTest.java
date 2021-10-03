@@ -99,4 +99,40 @@ class PastryOnSaleTest {
       throwsWithMessage(IllegalStateException.class, "Expired pastry")
     );
   }
+
+  @Test
+  void testExpiredAtFourthDayToTrue() {
+    assertThat(
+      new PastryOnSale(
+        new Pastry.Fake(),
+        LocalDate.EPOCH,
+        () -> LocalDate.EPOCH.plusDays(3)
+      ).expired(),
+      equalTo(true)
+    );
+  }
+
+  @Test
+  void testExpiredAtThirdDayToFalse() {
+    assertThat(
+      new PastryOnSale(
+        new Pastry.Fake(),
+        LocalDate.EPOCH,
+        () -> LocalDate.EPOCH.plusDays(2)
+      ).expired(),
+      equalTo(false)
+    );
+  }
+
+  @Test
+  void testExpiredAtSecondDayToFalse() {
+    assertThat(
+      new PastryOnSale(
+        new Pastry.Fake(),
+        LocalDate.EPOCH,
+        () -> LocalDate.EPOCH.plusDays(1)
+      ).expired(),
+      equalTo(false)
+    );
+  }
 }

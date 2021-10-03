@@ -29,6 +29,14 @@ class PastryTest {
     }
 
     @Test
+    void testDefaultExpiredToTrue() {
+      assertThat(
+        new Pastry.Fake().expired(),
+        equalTo(true)
+      );
+    }
+
+    @Test
     void testDefaultPriceToZero() {
       var price = 0;
       assertThat(

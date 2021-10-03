@@ -77,7 +77,7 @@ public final class PastryOnSale implements Pastry {
   }
 
   private void assertNotExpired() {
-    if (soldDays() >= expireDays) {
+    if (expired()) {
       throw new IllegalStateException("Expired pastry");
     }
   }
@@ -106,6 +106,11 @@ public final class PastryOnSale implements Pastry {
 
   private Long soldDays() {
     return manufacturedDate.until(now.get(), ChronoUnit.DAYS);
+  }
+
+  @Override
+  public Boolean expired() {
+    return soldDays() >= expireDays;
   }
 
   private final Pastry origin;

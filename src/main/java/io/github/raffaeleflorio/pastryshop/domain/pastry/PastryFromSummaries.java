@@ -5,9 +5,6 @@ import io.github.raffaeleflorio.pastryshop.domain.summary.Summaries;
 import io.github.raffaeleflorio.pastryshop.domain.summary.Summary;
 import jakarta.json.JsonObject;
 
-import java.time.LocalDate;
-import java.util.function.Supplier;
-
 /**
  * A saleable {@link Pastry} from {@link Summaries}
  *
@@ -24,28 +21,9 @@ public final class PastryFromSummaries implements Pastry {
    * @since 1.0.0
    */
   public PastryFromSummaries(final CharSequence name, final Summaries summaries, final Showcase showcase) {
-    this(name, summaries, showcase, LocalDate::now);
-  }
-
-  /**
-   * Builds a pastry
-   *
-   * @param name      The pastry name
-   * @param summaries The summaries
-   * @param showcase  The showcase where to sell
-   * @param now       The now function
-   * @since 1.0.0
-   */
-  public PastryFromSummaries(
-    final CharSequence name,
-    final Summaries summaries,
-    final Showcase showcase,
-    final Supplier<LocalDate> now
-  ) {
     this.name = name;
     this.summaries = summaries;
     this.showcase = showcase;
-    this.now = now;
   }
 
   @Override
@@ -69,8 +47,12 @@ public final class PastryFromSummaries implements Pastry {
     return description().getJsonNumber("price").numberValue();
   }
 
+  @Override
+  public Boolean expired() {
+    return false;
+  }
+
   private final CharSequence name;
   private final Summaries summaries;
   private final Showcase showcase;
-  private final Supplier<LocalDate> now;
 }
