@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.summary;
 
 import jakarta.json.Json;
 import org.junit.jupiter.api.Test;
@@ -7,20 +7,20 @@ import static io.github.raffaeleflorio.pastryshop.hamcrest.IsThrowedWithMessage.
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-class MandatoryNameTest {
+class MandatoryIngredientsTest {
   @Test
-  void testMissingNameException() {
-    var descriptionWithoutName = Json.createObjectBuilder().add("x", "y").build();
+  void testMissingPriceException() {
+    var descriptionWithoutIngredients = Json.createObjectBuilder().add("x", "y").build();
     assertThat(
-      () -> new MandatoryName(new Summaries.Fake()).add(descriptionWithoutName),
-      throwsWithMessage(IllegalStateException.class, "Missing name characteristic")
+      () -> new MandatoryIngredients(new Summaries.Fake()).add(descriptionWithoutIngredients),
+      throwsWithMessage(IllegalStateException.class, "Missing ingredients characteristic")
     );
   }
 
   @Test
   void testRemovingPassThru() {
     assertThat(
-      () -> new MandatoryName(new Summaries.Fake()).remove("any"),
+      () -> new MandatoryIngredients(new Summaries.Fake()).remove("any"),
       throwsWithMessage(IllegalStateException.class, "Unable to remove from a fake")
     );
   }
@@ -28,7 +28,7 @@ class MandatoryNameTest {
   @Test
   void testSummaryPassThru() {
     assertThat(
-      () -> new MandatoryName(new Summaries.Fake()).summary("any"),
+      () -> new MandatoryIngredients(new Summaries.Fake()).summary("any"),
       throwsWithMessage(IllegalStateException.class, "Unable to build a summary from a fake")
     );
   }
@@ -37,7 +37,7 @@ class MandatoryNameTest {
   void testDescriptionPassThru() {
     var description = Json.createArrayBuilder().build();
     assertThat(
-      new MandatoryName(new Summaries.Fake()).description(),
+      new MandatoryIngredients(new Summaries.Fake()).description(),
       equalTo(description)
     );
   }

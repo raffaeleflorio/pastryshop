@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.summary;
 
 
 import jakarta.json.JsonArray;
@@ -7,41 +7,31 @@ import jakarta.json.JsonObject;
 import java.util.Optional;
 
 /**
- * {@link Summaries} which adds only if name is present
+ * {@link Summaries} which adds only if a characteristic is present
  *
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class MandatoryImage implements Summaries.Validated {
+public final class MandatoryCharacteristic implements Summaries.Validated {
   /**
-   * Builds summaries
-   *
-   * @param origin The summaries to decorate
-   * @since 1.0.0
-   */
-  public MandatoryImage(final Summaries origin) {
-    this(origin, new IllegalStateException("Missing image characteristic"));
-  }
-
-  /**
-   * Builds summaries
+   * Builds summary
    *
    * @param origin    The summaries to decorate
+   * @param expected  The expected characteristic
    * @param exception The exception to throw
    * @since 1.0.0
    */
-  public MandatoryImage(final Summaries origin, final RuntimeException exception) {
-    this(
-      new MandatoryCharacteristic(origin, "image", exception)
-    );
-  }
-
-  private MandatoryImage(final Summaries.Validated origin) {
+  public MandatoryCharacteristic(final Summaries origin, final CharSequence expected, final RuntimeException exception) {
     this.origin = origin;
+    this.expected = expected;
+    this.exception = exception;
   }
 
   @Override
   public void add(final JsonObject description) {
+    if (!description.containsKey(expected.toString())) {
+      throw exception;
+    }
     origin.add(description);
   }
 
@@ -60,5 +50,7 @@ public final class MandatoryImage implements Summaries.Validated {
     return origin.description();
   }
 
-  private final Summaries.Validated origin;
+  private final Summaries origin;
+  private final CharSequence expected;
+  private final RuntimeException exception;
 }

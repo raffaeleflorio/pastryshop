@@ -1,5 +1,6 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.showcase;
 
+import io.github.raffaeleflorio.pastryshop.domain.pastry.Pastry;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 

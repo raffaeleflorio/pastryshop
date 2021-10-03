@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.summary;
 
 import jakarta.json.Json;
 import org.junit.jupiter.api.Test;
@@ -7,20 +7,20 @@ import static io.github.raffaeleflorio.pastryshop.hamcrest.IsThrowedWithMessage.
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-class MandatoryIngredientsTest {
+class MandatoryPriceTest {
   @Test
   void testMissingPriceException() {
-    var descriptionWithoutIngredients = Json.createObjectBuilder().add("x", "y").build();
+    var descriptionWithoutPrice = Json.createObjectBuilder().add("x", "y").build();
     assertThat(
-      () -> new MandatoryIngredients(new Summaries.Fake()).add(descriptionWithoutIngredients),
-      throwsWithMessage(IllegalStateException.class, "Missing ingredients characteristic")
+      () -> new MandatoryPrice(new Summaries.Fake()).add(descriptionWithoutPrice),
+      throwsWithMessage(IllegalStateException.class, "Missing price characteristic")
     );
   }
 
   @Test
   void testRemovingPassThru() {
     assertThat(
-      () -> new MandatoryIngredients(new Summaries.Fake()).remove("any"),
+      () -> new MandatoryPrice(new Summaries.Fake()).remove("any"),
       throwsWithMessage(IllegalStateException.class, "Unable to remove from a fake")
     );
   }
@@ -28,7 +28,7 @@ class MandatoryIngredientsTest {
   @Test
   void testSummaryPassThru() {
     assertThat(
-      () -> new MandatoryIngredients(new Summaries.Fake()).summary("any"),
+      () -> new MandatoryPrice(new Summaries.Fake()).summary("any"),
       throwsWithMessage(IllegalStateException.class, "Unable to build a summary from a fake")
     );
   }
@@ -37,7 +37,7 @@ class MandatoryIngredientsTest {
   void testDescriptionPassThru() {
     var description = Json.createArrayBuilder().build();
     assertThat(
-      new MandatoryIngredients(new Summaries.Fake()).description(),
+      new MandatoryPrice(new Summaries.Fake()).description(),
       equalTo(description)
     );
   }

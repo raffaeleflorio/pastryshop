@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.showcase;
 
 import jakarta.json.Json;
 import org.junit.jupiter.api.Nested;

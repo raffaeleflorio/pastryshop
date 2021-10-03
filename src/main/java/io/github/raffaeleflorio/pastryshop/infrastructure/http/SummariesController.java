@@ -1,7 +1,7 @@
 package io.github.raffaeleflorio.pastryshop.infrastructure.http;
 
-import io.github.raffaeleflorio.pastryshop.domain.pastry.JsonSummary;
-import io.github.raffaeleflorio.pastryshop.domain.pastry.Summaries;
+import io.github.raffaeleflorio.pastryshop.domain.summary.JsonSummary;
+import io.github.raffaeleflorio.pastryshop.domain.summary.Summaries;
 import jakarta.json.Json;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

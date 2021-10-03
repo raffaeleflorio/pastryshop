@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.summary;
 
 
 import jakarta.json.JsonArray;
@@ -12,15 +12,15 @@ import java.util.Optional;
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class MandatoryName implements Summaries.Validated {
+public final class MandatoryIngredients implements Summaries.Validated {
   /**
    * Builds summaries
    *
    * @param origin The summaries to decorate
    * @since 1.0.0
    */
-  public MandatoryName(final Summaries origin) {
-    this(origin, new IllegalStateException("Missing name characteristic"));
+  public MandatoryIngredients(final Summaries origin) {
+    this(origin, new IllegalStateException("Missing ingredients characteristic"));
   }
 
   /**
@@ -30,13 +30,13 @@ public final class MandatoryName implements Summaries.Validated {
    * @param exception The exception to throw
    * @since 1.0.0
    */
-  public MandatoryName(final Summaries origin, final RuntimeException exception) {
+  public MandatoryIngredients(final Summaries origin, final RuntimeException exception) {
     this(
-      new MandatoryCharacteristic(origin, "name", exception)
+      new MandatoryCharacteristic(origin, "ingredients", exception)
     );
   }
 
-  private MandatoryName(final Summaries.Validated origin) {
+  private MandatoryIngredients(final Summaries.Validated origin) {
     this.origin = origin;
   }
 

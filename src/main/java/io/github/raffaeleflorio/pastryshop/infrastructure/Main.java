@@ -1,7 +1,7 @@
 package io.github.raffaeleflorio.pastryshop.infrastructure;
 
-import io.github.raffaeleflorio.pastryshop.domain.pastry.*;
-import io.github.raffaeleflorio.pastryshop.infrastructure.pastry.InMemorySummaries;
+import io.github.raffaeleflorio.pastryshop.domain.summary.*;
+import io.github.raffaeleflorio.pastryshop.infrastructure.summary.InMemorySummaries;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package io.github.raffaeleflorio.pastryshop.domain.pastry;
+package io.github.raffaeleflorio.pastryshop.domain.summary;
 
 
 import jakarta.json.JsonArray;
@@ -7,31 +7,41 @@ import jakarta.json.JsonObject;
 import java.util.Optional;
 
 /**
- * {@link Summaries} which adds only if a characteristic is present
+ * {@link Summaries} which adds only if name is present
  *
  * @author Raffaele Florio (raffaeleflorio@protonmail.com)
  * @since 1.0.0
  */
-public final class MandatoryCharacteristic implements Summaries.Validated {
+public final class MandatoryPrice implements Summaries.Validated {
   /**
-   * Builds summary
+   * Builds summaries
+   *
+   * @param origin The summaries to decorate
+   * @since 1.0.0
+   */
+  public MandatoryPrice(final Summaries origin) {
+    this(origin, new IllegalStateException("Missing price characteristic"));
+  }
+
+  /**
+   * Builds summaries
    *
    * @param origin    The summaries to decorate
-   * @param expected  The expected characteristic
    * @param exception The exception to throw
    * @since 1.0.0
    */
-  public MandatoryCharacteristic(final Summaries origin, final CharSequence expected, final RuntimeException exception) {
+  public MandatoryPrice(final Summaries origin, final RuntimeException exception) {
+    this(
+      new MandatoryCharacteristic(origin, "price", exception)
+    );
+  }
+
+  private MandatoryPrice(final Summaries.Validated origin) {
     this.origin = origin;
-    this.expected = expected;
-    this.exception = exception;
   }
 
   @Override
   public void add(final JsonObject description) {
-    if (!description.containsKey(expected.toString())) {
-      throw exception;
-    }
     origin.add(description);
   }
 
@@ -50,7 +60,5 @@ public final class MandatoryCharacteristic implements Summaries.Validated {
     return origin.description();
   }
 
-  private final Summaries origin;
-  private final CharSequence expected;
-  private final RuntimeException exception;
+  private final Summaries.Validated origin;
 }
