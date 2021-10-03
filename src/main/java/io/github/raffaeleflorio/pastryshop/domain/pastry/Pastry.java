@@ -2,6 +2,8 @@ package io.github.raffaeleflorio.pastryshop.domain.pastry;
 
 import jakarta.json.JsonObject;
 
+import java.time.LocalDate;
+
 /**
  * A produced pastry
  *
@@ -34,10 +36,32 @@ public interface Pastry {
   Number price();
 
   /**
-   * Builds true if expired
+   * Builds the expiration date
    *
-   * @return True if expired, otherwise false
+   * @return The expiration date
    * @since 1.0.0
    */
-  Boolean expired();
+  LocalDate expiration();
+
+  final class Fake implements Pastry {
+    @Override
+    public void sell(final Number quantity) {
+
+    }
+
+    @Override
+    public JsonObject description() {
+      return null;
+    }
+
+    @Override
+    public Number price() {
+      return null;
+    }
+
+    @Override
+    public LocalDate expiration() {
+      return null;
+    }
+  }
 }

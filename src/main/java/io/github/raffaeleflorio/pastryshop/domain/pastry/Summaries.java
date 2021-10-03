@@ -5,6 +5,7 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -72,10 +73,10 @@ public interface Summaries {
      */
     public Fake() {
       this(
-        () -> {
+        (x) -> {
           throw new IllegalStateException("Unable to add to a fake");
         },
-        () -> {
+        (x) -> {
           throw new IllegalStateException("Unable to remove from a fake");
         },
         id -> {
@@ -95,8 +96,8 @@ public interface Summaries {
      * @since 1.0.0
      */
     public Fake(
-      final Runnable addFn,
-      final Runnable removeFn,
+      final Consumer<JsonObject> addFn,
+      final Consumer<CharSequence> removeFn,
       final Function<CharSequence, Optional<Summary>> summaryFn,
       final JsonArray description
     ) {
@@ -108,12 +109,12 @@ public interface Summaries {
 
     @Override
     public void add(final JsonObject description) {
-      addFn.run();
+      addFn.accept(description);
     }
 
     @Override
     public void remove(final CharSequence id) {
-      removeFn.run();
+      removeFn.accept(id);
     }
 
     @Override
@@ -126,8 +127,8 @@ public interface Summaries {
       return description;
     }
 
-    private final Runnable addFn;
-    private final Runnable removeFn;
+    private final Consumer<JsonObject> addFn;
+    private final Consumer<CharSequence> removeFn;
     private final Function<CharSequence, Optional<Summary>> summaryFn;
     private final JsonArray description;
   }

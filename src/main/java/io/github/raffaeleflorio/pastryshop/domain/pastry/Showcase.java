@@ -2,7 +2,8 @@ package io.github.raffaeleflorio.pastryshop.domain.pastry;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
+
+import java.util.function.BiConsumer;
 
 /**
  * {@link Pastry} showcase
@@ -14,10 +15,11 @@ public interface Showcase {
   /**
    * Adds an item
    *
-   * @param description The item description
+   * @param name     The pastry name
+   * @param quantity The available quantity
    * @since 1.0.0
    */
-  void add(JsonObject description);
+  void add(CharSequence name, Integer quantity);
 
   /**
    * Builds the description
@@ -51,7 +53,7 @@ public interface Showcase {
      */
     public Fake() {
       this(
-        () -> {
+        (x, y) -> {
           throw new IllegalStateException("Unable to add to a fake");
         },
         Json.createArrayBuilder().build()
@@ -65,14 +67,14 @@ public interface Showcase {
      * @param description The description
      * @since 1.0.0
      */
-    public Fake(final Runnable addFn, final JsonArray description) {
+    public Fake(final BiConsumer<CharSequence, Integer> addFn, final JsonArray description) {
       this.addFn = addFn;
       this.description = description;
     }
 
     @Override
-    public void add(final JsonObject description) {
-      addFn.run();
+    public void add(final CharSequence name, final Integer quantity) {
+      addFn.accept(name, quantity);
     }
 
     @Override
@@ -80,7 +82,7 @@ public interface Showcase {
       return description;
     }
 
-    private final Runnable addFn;
+    private final BiConsumer<CharSequence, Integer> addFn;
     private final JsonArray description;
   }
 }
